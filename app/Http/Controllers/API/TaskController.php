@@ -15,7 +15,6 @@ class TaskController extends Controller
     // tasks for using apiresource  route
     public function index()
     {
-
         $user = auth()->user();
         if ($user->role == 'admin') {
             $tasks = Task::with(['user', 'status', 'creator'])->latest()->get();

@@ -130,7 +130,10 @@ const TasksDragDrop = () => {
                     <div className="card-body">{task.description}</div>
                     <div className="card-footer">
                         <div className="card-text">
-                            <strong>Created By:</strong> {task.user.name}
+                            <strong>Created By:</strong> {task.creator.name}
+                        </div>
+                        <div className="card-text">
+                            <strong>Created For:</strong> {task.user.name}
                         </div>
                         <div className="card-text">
                             <strong>Deadline:</strong> {task.deadline_date}
@@ -154,11 +157,17 @@ const TasksDragDrop = () => {
 
     return (
         <div className="container">
-            <button onClick={() => setShowModal(true)}>Add Task</button>
+            <button
+                className="btn btn-success m-3"
+                onClick={() => setShowModal(true)}
+            >
+                Add Task
+            </button>
 
             <Modal isOpen={showModal} toggle={() => setShowModal(!showModal)}>
                 <ModalHeader toggle={() => setShowModal(!showModal)}>
-                    Add Task
+                    Add Task (Only admin (manager) can, right now authorized
+                    based access control not implemented)
                 </ModalHeader>
                 <ModalBody>
                     <div className="form-floating mb-3">

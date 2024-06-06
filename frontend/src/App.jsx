@@ -8,20 +8,21 @@ import TasksDragDrop from "./pages/TasksDragDrop";
 import UpdateTask from "./pages/UpdateTask";
 
 function App() {
-  const [count, setCount] = useState(0);
+    const [count, setCount] = useState(0);
 
-  return (
-    <Layout>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/tasks" element={<Tasks />} />
-        {/* Update Task LoginPage */}
-        <Route path="/tasks/:id" element={<UpdateTask />} />
-        <Route path="/tasks-drag-drop" element={<TasksDragDrop />} />
-      </Routes>
-    </Layout>
-  );
+    return (
+        <Layout>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                {/* <Route path="/tasks" element={<Tasks />} /> */}
+                <Route path="/tasks" element={<TasksDragDrop />} />
+                {/* Update Task LoginPage */}
+                <Route path="/tasks/:id" element={<UpdateTask />} />
+                <Route path="/tasks-drag-drop" element={<TasksDragDrop />} />
+            </Routes>
+        </Layout>
+    );
 }
 
 export default App;
