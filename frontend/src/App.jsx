@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Tasks from "./pages/Tasks";
 import TasksDragDrop from "./pages/TasksDragDrop";
 import UpdateTask from "./pages/UpdateTask";
+import Notification from "./pages/Notification";
 
 function App() {
     const [count, setCount] = useState(0);
@@ -20,6 +21,7 @@ function App() {
                 {/* Update Task LoginPage */}
                 <Route path="/tasks/:id" element={<UpdateTask />} />
                 <Route path="/tasks-drag-drop" element={<TasksDragDrop />} />
+                <Route path="/notifications" element={<Notification />} />
             </Routes>
         </Layout>
     );

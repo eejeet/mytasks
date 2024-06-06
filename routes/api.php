@@ -32,6 +32,20 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/task-statuses', function () {
         return ApiResponse::success(\App\Models\TaskStatus::all(), 'Task Status List');
     });
+    //Notifications Route
+    Route::get('/notifications', function (Request $request) {
+        return ApiResponse::success($request->user()->notifications, 'Notifications');
+    });
+    // Upadate Notification as Read
+    Route::put('/notifications/{id}', function (Request $request, $id) {
+        $notification = $request->user()->notifications()->where('id', $id)->first();
+        if ($notification) {
+            $notification->markAsRead();
+            return ApiResponse::success(null, 'Notification Marked as Read');
+        } else {
+            return ApiResponse::error('Notification Not Found', 404);
+        }
+    });
 });
 
 /**

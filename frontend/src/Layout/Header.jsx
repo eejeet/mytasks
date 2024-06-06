@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Notification from "./../pages/Notification";
 
 const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -75,6 +76,13 @@ const Header = () => {
                                     Tasks
                                 </Link>
                             </li>
+
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/notifications">
+                                    Notification
+                                </Link>
+                            </li>
+
                             {renderAuthLinks()}
                         </ul>
                     </div>
