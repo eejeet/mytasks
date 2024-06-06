@@ -79,6 +79,11 @@ const TasksDragDrop = () => {
         fetchTaskStatuses();
         fetchTasks();
         fetchUsers();
+        // check if user is logged in
+        const token = localStorage.getItem("token");
+        if (!token) {
+            window.location.href = "/login";
+        }
     }, []);
 
     const handleDragStart = (e, taskId) => {
