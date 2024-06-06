@@ -136,7 +136,8 @@ const TasksDragDrop = () => {
                             <strong>Created For:</strong> {task.user.name}
                         </div>
                         <div className="card-text">
-                            <strong>Deadline:</strong> {task.deadline_date}
+                            <strong>Deadline:</strong>{" "}
+                            {new Date(task.deadline_date).toLocaleDateString()}
                         </div>
                     </div>
                 </div>
