@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tasks', function (Blueprint $table) {
+            $table->dropColumn('status');
             $table->unsignedBigInteger('status_id')->nullable()->after('deadline_date');
            $table->foreign('status_id')->references('id')->on('task_statuses')->onDelete('set null'); //
         });

@@ -15,12 +15,13 @@ class TaskStatusSeeder extends Seeder
     public function run(): void
     {
         $statuses = [
-            'Pendding',
-            'Assingned',
-            'Compleated',
+            ['name' => 'Pendding', 'is_default' => 1],
+            ['name' => 'Assingned', 'is_default' => 0],
+            ['name' => 'Compleated', 'is_default' => 0],
         ];
+
         foreach ($statuses as $status) {
-            TaskStatus::firstOrCreate(['name' => $status]);
+            TaskStatus::firstOrCreate($status);
         }
     }
 }

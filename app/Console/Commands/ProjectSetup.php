@@ -12,7 +12,9 @@ class ProjectSetup extends Command
 
     public function handle()
     {
-        Artisan::call('migrate');
+        Artisan::call('migrate:fresh');
         Artisan::call('db:seed');
+        Artisan::call('project:fake-seed');
+
     }
 }

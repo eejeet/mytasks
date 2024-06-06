@@ -19,13 +19,13 @@ Task Management System with Notifications (Backend in Laravel and Frontend in Re
    Providing optional frontend interface for users to interact with the system.
 3. Functional Requirements
    3.1 Backend (Laravel)
-   1. Task Management
-      Implement CRUD operations for tasks (Create, Read, Update, Delete).
-      Define a Task model with fields: id, title, description, status,
-      deadline.
-      Implement RESTful API endpoints for task CRUD operations.
-      Utilize Laravel Eloquent ORM for database interactions.
-      Implement validation for task creation and updating.
+    1. Task Management
+       Implement CRUD operations for tasks (Create, Read, Update, Delete).
+       Define a Task model with fields: id, title, description, status,
+       deadline.
+       Implement RESTful API endpoints for task CRUD operations.
+       Utilize Laravel Eloquent ORM for database interactions.
+       Implement validation for task creation and updating.
 4. Notification System
    Define events for task-related events (e.g., task assignment,
    completion, deadline approaching).
@@ -70,10 +70,12 @@ Task User
 
 How Install and setup project to run on server
 
-1. Install php 8.1, composer and Node.js  on server and use database mysql or mariadb
+1. Install php 8.1, composer and Node.js on server and use database mysql or mariadb
 2. run the command on root foder using terminals
-   1. **composer install - for isntall  php liberry**
-   2. npm i -
-   3. npm run dev
+    1. **composer install - for isntall php liberry**
+    2. npm i -
+    3. npm run dev
 3. run
 4.
+
+Create Task Module

@@ -16,11 +16,20 @@ class UserSeeder extends Seeder
 
         // if user not exits then create new
         User::firstOrCreate([
-            "email"=> "eejeet@gmail.com",
+            "email"=> "admin@example.com",
         ],
         [
             "name"=> "Ranjeet",
-            "password"=> bcrypt("123456@ranjeet"),
+            "password"=> bcrypt("123456@admin"),
+            'role' => 'admin'
+        ]);
+        User::firstOrCreate([
+            "email"=> "user@example.com",
+        ],
+        [
+            "name"=> "Ankit",
+            "password"=> bcrypt("123456@user"),
+            'role' => 'user'
         ]);
     }
 }

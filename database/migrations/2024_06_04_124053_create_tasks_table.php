@@ -17,8 +17,13 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->enum('status', ['pending', 'assingned', 'started', 'compleated'])->default('pending');
+            $table->unsignedBigInteger('created_by')->comment('User who created the task');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->date('deadline_date')->nullable();
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            //if created_by user is deleted then delete the task
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
