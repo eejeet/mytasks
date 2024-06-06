@@ -198,7 +198,7 @@ class ProjectSetup extends Command
     {
         try {
             $this->reloadEnvironmentVariables();
-            $this->call('migrate');
+            \Artisan::call('migrate');
 
         } catch (\Exception $e) {
             Log::error('Migration failed: ' . $e->getMessage());
@@ -210,12 +210,7 @@ class ProjectSetup extends Command
     {
         try {
             $this->call('db:seed', ['--force' => true]);
-
-            if (env('APP_ENV') !== 'production') { // Seed fake data for development
-                $this->info('Seeding fake data for development...');
-                //
-            $this->call('project:fake-seed');
-            }
+            Artisan::call('project:fake-seed');
         } catch (\Exception $e) {
             Log::error('Seeding failed: ' . $e->getMessage());
             $this->error('Seeding failed: ' . $e->getMessage());
@@ -224,8 +219,8 @@ class ProjectSetup extends Command
 
     protected function reloadEnvironmentVariables()
     {
-        $this->call('config:clear');
-        $this->call('config:cache');
+        Artisan::call('config:clear');
+        Artisan::call('config:cache');
         // $this->info('Environment variables reloaded.');
     }
 }
