@@ -161,6 +161,9 @@ const TasksDragDrop = () => {
         return colors[index % colors.length];
     };
 
+    //get user from local storage
+    const user = JSON.parse(localStorage.getItem("user"));
+
     return (
         <div className="container">
             <button
@@ -171,100 +174,112 @@ const TasksDragDrop = () => {
             </button>
 
             <Modal isOpen={showModal} toggle={() => setShowModal(!showModal)}>
-                <ModalHeader toggle={() => setShowModal(!showModal)}>
-                    Add Task (Only admin (manager) can, right now authorized
-                    based access control not implemented)
-                </ModalHeader>
-                <ModalBody>
-                    <div className="form-floating mb-3">
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="name"
-                            placeholder="Enter name"
-                            name="name"
-                            value={newTask.name}
-                            onChange={handleInputChange}
-                        />
-                        <label htmlFor="name">Name</label>
-                    </div>
+                {user.role === "admin" ? (
+                    <>
+                        <ModalHeader toggle={() => setShowModal(!showModal)}>
+                            Add Task
+                        </ModalHeader>
+                        <ModalBody>
+                            <div className="form-floating mb-3">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="name"
+                                    placeholder="Enter name"
+                                    name="name"
+                                    value={newTask.name}
+                                    onChange={handleInputChange}
+                                />
+                                <label htmlFor="name">Name</label>
+                            </div>
 
-                    <div className="form-floating mb-3"></div>
-                    <div className="form-floating mb-3">
-                        <input
-                            type="date"
-                            className="form-control"
-                            id="deadline_date"
-                            placeholder="Enter deadline date"
-                            name="deadline_date"
-                            value={newTask.deadline_date}
-                            onChange={handleInputChange}
-                        />
-                        <label htmlFor="deadline_date">Deadline Date</label>
-                    </div>
+                            <div className="form-floating mb-3"></div>
+                            <div className="form-floating mb-3">
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    id="deadline_date"
+                                    placeholder="Enter deadline date"
+                                    name="deadline_date"
+                                    value={newTask.deadline_date}
+                                    onChange={handleInputChange}
+                                />
+                                <label htmlFor="deadline_date">
+                                    Deadline Date
+                                </label>
+                            </div>
 
-                    <div className="form-floating mb-3">
-                        <select
-                            className="form-control"
-                            id="status_id"
-                            name="status_id"
-                            value={newTask.status_id}
-                            onChange={handleInputChange}
-                            disabled
-                        >
-                            <option value="">Select Status</option>
-                            {statuses.map((status) => (
-                                <option
-                                    key={status.id}
-                                    value={status.id}
-                                    selected={status.is_default == 1}
+                            <div className="form-floating mb-3">
+                                <select
+                                    className="form-control"
+                                    id="status_id"
+                                    name="status_id"
+                                    value={newTask.status_id}
+                                    onChange={handleInputChange}
+                                    disabled
                                 >
-                                    {status.name}
-                                </option>
-                            ))}
-                        </select>
-                        <label htmlFor="status_id">Status</label>
-                    </div>
+                                    <option value="">Select Status</option>
+                                    {statuses.map((status) => (
+                                        <option
+                                            key={status.id}
+                                            value={status.id}
+                                            selected={status.is_default == 1}
+                                        >
+                                            {status.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                <label htmlFor="status_id">Status</label>
+                            </div>
 
-                    <div className="form-floating mb-3">
-                        <select
-                            className="form-control"
-                            id="user_id"
-                            name="user_id"
-                            value={newTask.user_id}
-                            onChange={handleInputChange}
-                        >
-                            <option value="">Select User</option>
-                            {users.map((user) => (
-                                <option
-                                    key={user.id}
-                                    value={user.id}
-                                    selected={user.is_default === 1}
+                            <div className="form-floating mb-3">
+                                <select
+                                    className="form-control"
+                                    id="user_id"
+                                    name="user_id"
+                                    value={newTask.user_id}
+                                    onChange={handleInputChange}
                                 >
-                                    {user.name}
-                                </option>
-                            ))}
-                        </select>
-                        <label htmlFor="user_id">For User</label>
-                    </div>
-                    <div className="form-floating mb-3">
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="description"
-                            placeholder="Enter description"
-                            name="description"
-                            value={newTask.description}
-                            onChange={handleInputChange}
-                        />
-                        <label htmlFor="description">Description</label>
-                    </div>
-                </ModalBody>
-                <ModalFooter>
-                    <button onClick={createTask}>Create Task</button>
-                    <button onClick={() => setShowModal(false)}>Cancel</button>
-                </ModalFooter>
+                                    <option value="">Select User</option>
+                                    {users.map((user) => (
+                                        <option
+                                            key={user.id}
+                                            value={user.id}
+                                            selected={user.is_default === 1}
+                                        >
+                                            {user.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                <label htmlFor="user_id">For User</label>
+                            </div>
+                            <div className="form-floating mb-3">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="description"
+                                    placeholder="Enter description"
+                                    name="description"
+                                    value={newTask.description}
+                                    onChange={handleInputChange}
+                                />
+                                <label htmlFor="description">Description</label>
+                            </div>
+                        </ModalBody>
+                        <ModalFooter>
+                            <button onClick={createTask}>Create Task</button>
+                            <button onClick={() => setShowModal(false)}>
+                                Cancel
+                            </button>
+                        </ModalFooter>
+                    </>
+                ) : (
+                    <>
+                        <h1>Login as Admin to Add</h1>
+                    </>
+                )}
             </Modal>
+
             <div className="row">
                 {statuses.map((status, index) => (
                     <div

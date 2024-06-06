@@ -15,7 +15,12 @@ const Login = () => {
             // if reponse is successful, save token to local storage
             if (response.data.status) {
                 localStorage.setItem("token", response.data.data.token);
-                localStorage.setItem("user", response.data.data.user);
+                // Save user data to local storage
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(response.data.data.user)
+                );
+                // Display success message
                 successAlert(response.data.message);
                 window.location.href = "/tasks";
             }
