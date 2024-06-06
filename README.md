@@ -19,7 +19,7 @@ How to Install and Setup the Project to Run on a Server (If Not Mentioned, All S
 
 Finally, the API server is ready to use. Now we need to set up our frontend script to run the application.
 
-### Follow these steps to set up the frontend script (Now Frontend code not added to the script)
+### Follow these steps to set up the frontend script (Now Frontend code not added to the )
 
 1. Go to the frontend folder located in the root folder of the script.
 2. Navigate to the \src\services\api.jsx file and change the value of the baseURL object to the API base URL.
