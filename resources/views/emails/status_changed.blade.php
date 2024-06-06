@@ -1,7 +1,7 @@
 <x-mail::message>
     # Status Changed for Task: {{ $task->name }}
 
-    The status of your task has been changed to {{ $task->status->name }}.
+    The status of task has been changed to {{ $task->status->name }} by {{ $user->name }}.
     The deadline date is {{ $task->deadline_date->format('d-m-Y') }}.
 
     Thanks,<br>

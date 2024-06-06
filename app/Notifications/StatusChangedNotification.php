@@ -49,14 +49,31 @@ class StatusChangedNotification extends Notification implements ShouldQueue
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->subject('Task - '. $this->task->name .' ('. $this->task->id .') status changed to - '. $this->task->status->name)
-                    ->markdown('emails.status_changed', ['task' => $this->task, 'user' => $this->user]);
-                    // this mail template using from StatusChangedMail, ---- Mail::to($notifiable->email)->queue(new StatusChangedMail($this->task, $notifiable));
+    // public function toMail($notifiable)
+    // {
+    //     return (new MailMessage)
+    //                 ->subject('Task - '. $this->task->name .' ('. $this->task->id .') status changed to - '. $this->task->status->name)
+    //                 ->markdown('emails.status_changed', ['task' => $this->task, 'user' => $this->user]);
+    //                 // this mail template using from StatusChangedMail, ---- Mail::to($notifiable->email)->queue(new StatusChangedMail($this->task, $notifiable));
 
+    // }
+
+    public function toMail($notifiable)
+{
+
+    if ( $this->user->role == 'user' and  $this->task->status_id == 2) {
+        return (new MailMessage)
+            ->subject('Task - '. $this->task->name .' ('. $this->task->id .') status changed to - '. $this->task->status->name)
+            ->markdown('emails.status_changed', ['task' => $this->task, 'user' => $this->user]);
+            // Send notification to user_id user
     }
+         return (new MailMessage)
+            ->subject('Task - '. $this->task->name .' ('. $this->task->id .') status changed to - '. $this->task->status->name)
+            ->markdown('emails.status_changed', ['task' => $this->task, 'user' => $this->task->createdBy]);
+            // Send notification to created_by user
+
+}
+
 
     /**
      * Get the array representation of the notification.
@@ -66,9 +83,16 @@ class StatusChangedNotification extends Notification implements ShouldQueue
      */
     public function toArray($notifiable)
     {
-        return [
-            'title' => 'Task - '. $this->task->name .' ('. $this->task->id .') status changed to - '. $this->task->status->name,
-            'data' => $this->task->toArray(),
-        ];
+        if ($this->user->role == 'user' and  $this->task->status_id == 2) {
+            return [
+                'title' => 'Task - '. $this->task->name .' ('. $this->task->id .') status changed to - '. $this->task->status->name,
+                'data' => $this->task->toArray(),
+            ];
+        } elseif ($this->task->status_id == 3) {
+            return [
+                'title' => 'Task - '. $this->task->name .' ('. $this->task->id .') status changed to - '. $this->task->status->name,
+                'data' => $this->task->toArray(),
+            ];
+        }
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\StatusChanged;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Task extends Model
 {
@@ -15,7 +16,8 @@ class Task extends Model
         'deadline_date',
         'created_by',
         'user_id',
-        'status_id'
+        'status_id',
+        'role'
     ];
     protected $casts = [
         'deadline_date' => 'date',
@@ -36,7 +38,24 @@ class Task extends Model
                 event(new StatusChanged($task));
             }
         });
+
+
+
+        // static::addGlobalScope('userRole', function (Builder $builder) {
+        //     if (auth()->check()) {
+        //         $user = auth()->user();
+        //         if ($user->role === 'user') {
+        //             // Include all tasks
+        //         } else {
+        //             $builder->where('user_id', $user->id);
+        //         }
+        //     }
+        // });
     }
+
+    //scope userRole
+
+
 
 
     /**
