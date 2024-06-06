@@ -1,149 +1,137 @@
-import React, { useState, useEffect } from "react";
-import api from "../services/api";
-import { errorAlert } from "../services/helpers";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "reactstrap";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import React, { useState } from "react";
 
 const TasksDragDrop = () => {
-  const [tasks, setTasks] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [statuses, setStatuses] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [newTask, setNewTask] = useState({
-    name: "",
-    description: "",
-    deadline_date: "",
-    status_id: "",
-    user_id: "",
-  });
+    const [tasks, setTasks] = useState([
+        { id: 1, title: "Task 1", section: "Todo" },
+        { id: 2, title: "Task 2", section: "Todo" },
+        { id: 3, title: "Task 3", section: "In Progress" },
+        { id: 4, title: "Task 4", section: "In Progress" },
+        { id: 5, title: "Task 5", section: "Done" },
+        { id: 6, title: "Task 6", section: "Done" },
+    ]);
 
-  useEffect(() => {
-    fetchTasks();
-    fetchUsers();
-    fetchStatuses();
-  }, []);
+    const handleDragStart = (e, taskId) => {
+        e.dataTransfer.setData("taskId", taskId);
+    };
 
-  const fetchTasks = async () => {
-    try {
-      const response = await api.get("/tasks");
-      setTasks(response.data.data);
-    } catch (error) {
-      errorAlert("Error fetching tasks");
-      console.error("Error fetching tasks:", error);
-    }
-  };
+    const handleDragOver = (e) => {
+        e.preventDefault();
+    };
 
-  const fetchUsers = async () => {
-    try {
-      const response = await api.get("/users");
-      setUsers(response.data.data);
-    } catch (error) {
-      errorAlert("Error fetching users");
-      console.error("Error fetching users:", error);
-    }
-  };
+    const handleDrop = (e, section) => {
+        const taskId = e.dataTransfer.getData("taskId");
+        const updatedTasks = tasks.map((task) => {
+            if (task.id === parseInt(taskId)) {
+                return { ...task, section };
+            }
+            return task;
+        });
+        setTasks(updatedTasks);
+    };
 
-  const fetchStatuses = async () => {
-    try {
-      const response = await api.get("/task-statuses");
-      setStatuses(response.data.data);
-    } catch (error) {
-      errorAlert("Error fetching statuses");
-      console.error("Error fetching statuses:", error);
-    }
-  };
+    const renderTasks = (section) => {
+        return tasks
+            .filter((task) => task.section === section)
+            .map((task) => (
+                <div
+                    key={task.id}
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, task.id)}
+                >
+                    <div className="card">
+                        <div className="card-body">{task.title}</div>
+                    </div>
+                </div>
+            ));
+    };
 
-  const createTask = async () => {
-    try {
-      await api.post("/tasks", newTask);
-      setNewTask({
-        name: "",
-        description: "",
-        deadline_date: "",
-        status_id: "",
-        user_id: "",
-      });
-      setShowModal(false);
-      fetchTasks();
-    } catch (error) {
-      console.error("Error creating task:", error);
-    }
-  };
+    return (
+        <div className="row">
+            <div
+                className="col-4 card p-1"
+                onDragOver={(e) => handleDragOver(e)}
+                onDrop={(e) => handleDrop(e, "Todo")}
+            >
+                <h2>Todo</h2>
+                {renderTasks("Todo")}
+            </div>
+            <div
+                className="col-4 card p-1"
+                onDragOver={(e) => handleDragOver(e)}
+                onDrop={(e) => handleDrop(e, "In Progress")}
+            >
+                <h2>In Progress</h2>
+                {renderTasks("In Progress")}
+            </div>
+            <div
+                className="col-4 card p-1"
+                onDragOver={(e) => handleDragOver(e)}
+                onDrop={(e) => handleDrop(e, "Done")}
+            >
+                <h2>Done</h2>
+                {renderTasks("Done")}
+            </div>
+        </div>
+    );
 
-  const updateTask = async (taskId, updatedTask) => {
-    try {
-      await api.put(`/tasks/${taskId}`, { task: updatedTask });
-      fetchTasks();
-      // Implement sweet alert with success message
-      alert("Task updated successfully");
-    } catch (error) {
-      console.error("Error updating task:", error);
-      // Implement sweet alert with error message
-      alert("Failed to update task");
-    }
-  };
-
-  const handleInputChange = (e) => {
-    setNewTask({
-      ...newTask,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleDragEnd = (result) => {
-    if (!result.destination) return;
-
-    const updatedTasks = Array.from(tasks);
-    const [removed] = updatedTasks.splice(result.source.index, 1);
-    updatedTasks.splice(result.destination.index, 0, removed);
-
-    setTasks(updatedTasks);
-  };
-
-  return (
-    <div>
-      <h1>Task List</h1>
-      <button onClick={() => setShowModal(true)}>Add Task</button>
-
-      <Modal isOpen={showModal} toggle={() => setShowModal(!showModal)}>
-        {/* Modal content */}
-      </Modal>
-
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="tasks">
-          {(provided) => (
-            <table className="table" ref={provided.innerRef}>
-              <thead>{/* Table header */}</thead>
-              <tbody>
-                {tasks.map((task, index) => (
-                  <Draggable key={task.id} draggableId={task.id} index={index}>
-                    {(provided) => (
-                      <tr
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        {/* Table row */}
-                      </tr>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </tbody>
-            </table>
-          )}
-        </Droppable>
-      </DragDropContext>
-    </div>
-  );
+    return (
+        <div>
+            <div
+                className="section"
+                onDragOver={(e) => handleDragOver(e)}
+                onDrop={(e) => handleDrop(e, "Todo")}
+            >
+                <h2>Todo</h2>
+                {tasks
+                    .filter((task) => task.section === "Todo")
+                    .map((task) => (
+                        <div
+                            key={task.id}
+                            draggable
+                            onDragStart={(e) => handleDragStart(e, task.id)}
+                        >
+                            {task.title}
+                        </div>
+                    ))}
+            </div>
+            <div
+                className="section"
+                onDragOver={(e) => handleDragOver(e)}
+                onDrop={(e) => handleDrop(e, "In Progress")}
+            >
+                <h2>In Progress</h2>
+                {tasks
+                    .filter((task) => task.section === "In Progress")
+                    .map((task) => (
+                        <div
+                            key={task.id}
+                            draggable
+                            onDragStart={(e) => handleDragStart(e, task.id)}
+                        >
+                            {task.title}
+                        </div>
+                    ))}
+            </div>
+            <div
+                className="section"
+                onDragOver={(e) => handleDragOver(e)}
+                onDrop={(e) => handleDrop(e, "Done")}
+            >
+                <h2>Done</h2>
+                {tasks
+                    .filter((task) => task.section === "Done")
+                    .map((task) => (
+                        <div
+                            key={task.id}
+                            draggable
+                            onDragStart={(e) => handleDragStart(e, task.id)}
+                        >
+                            {task.title}
+                        </div>
+                    ))}
+            </div>
+        </div>
+    );
 };
 
 export default TasksDragDrop;
