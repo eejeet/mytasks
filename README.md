@@ -45,7 +45,7 @@ MyTasks is a web application built with React for the frontend and Laravel for t
 
 5. **Configure environment variables:**
 
-    - Open the `.env` file and set your database credentials, SMTP settings, and other environment variables ( due to time limit, SMTP configration not added in project:setup commnad).
+    - Open the `.env` file and set your SMTP credentials and settings, and other environment variables ( due to time limit, SMTP configration not added in project:setup commnad).
 
 <!-- 6. **Run Frontend :**
 
@@ -54,13 +54,8 @@ MyTasks is a web application built with React for the frontend and Laravel for t
     ``` -->
 
 6.  **Start the frontend development server:**
-    <!--
-        ```bash
-            php artisan frontend
-        ```
-            -  -->
 
-        - goto frontend folder and run the commands
+    -   goto frontend folder and run the commands
 
         ```bash
         npm i
@@ -70,7 +65,7 @@ MyTasks is a web application built with React for the frontend and Laravel for t
         npm run dev
         ```
 
-        - it will take time when you run fist time becuse its installing some node.js liberry like react js and other that used in frontend devlopment.
+        -   it will take time when you run fist time becuse its installing some node.js liberry like react js and other that used in frontend devlopment.
 
 ### Running
 
