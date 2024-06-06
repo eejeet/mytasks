@@ -1,45 +1,85 @@
-How to Install and Setup the Project to Run on a Server (If Not Mentioned, All Steps are Mandatory)
+# MyTasks
 
-1. Install PHP 8.1, Composer, and Node.js on the server and use MySQL or MariaDB as the database.
-2. Run the following commands in the terminal, making sure you are in the root folder of the project:
+This is a project for managing tasks and to-do lists. It features a user-friendly interface, a robust backend API, and a responsive design.
 
-    1. ```
-       composer install
-       ```
+## Project Description
 
-        This will install the required libraries.
+MyTasks is a web application built with React for the frontend and Laravel for the backend. It allows users to create, manage, and organize their tasks efficiently. The application offers features such as:
 
-    2. ```
-       php artisan project:setup
-       ```
+-   **Task Creation & Editing:** Create tasks with detailed descriptions, deadlines, and priorities.
+-   **Task Completion & Progress Tracking:** Mark tasks as completed and track overall progress.
+-   **User Authentication & Authorization:** Securely manage user accounts and permissions.
+-   **Email and Database Notifications:** Receive reminders and notifications about upcoming tasks.
 
-        1. Run and follow the wizard for API setup.
+## Getting Started
 
-3. Open the .env file and configure the SMTP credentials for receiving emails.
+### Prerequisites
 
-Finally, the API server is ready to use. Now we need to set up our frontend script to run the application.
+-   **PHP 8.1:** [https://www.php.net/downloads.php](https://www.php.net/downloads.php)
+-   **MySQL or MariaDB:** [https://dev.mysql.com/downloads/mysql/](https://dev.mysql.com/downloads/mysql/)
+-   **Composer:** [https://getcomposer.org/](https://getcomposer.org/)
+-   **Node.js:** [https://nodejs.org/](https://nodejs.org/)
 
-### Follow these steps to set up the frontend script (Now Frontend code not added to the )
+### Installation
 
-1. Go to the frontend folder located in the root folder of the script.
-2. Navigate to the \src\services\api.jsx file and change the value of the baseURL object to the API base URL.
-3. Open the frontend folder in the terminal.
-4. Run the following commands:
+1. **Clone the repository:**
 
-    1. ```
-       npm i
-       ```
+    ```bash
+    git clone https://github.com/eejeet/mytasks
+    ```
 
-        1. This will install the React.js dependencies.
+2. **Navigate to the project directory:**
 
-    2. ```
-       npm run dev
-       ```
+    ```bash
+    cd mytasks
+    ```
 
-        1. This will open the frontend website/web app in development mode.
-            1. If the development mode runs successfully, you can proceed to the next step to generate a build and use it on a production server (you can also follow these steps on a production server to generate a build).
-        2. Run the following command:
+3. **Install backend dependencies:**
 
-```
-npm run build
-```
+    ```bash
+    composer install
+    ```
+
+4. **Run the setup wizard:**
+
+    ```bash
+    php artisan project:setup
+    ```
+
+    - Follow the prompts to configure your API, database, and other settings.
+
+5. **Configure environment variables:**
+
+    - Open the `.env` file and set your database credentials, SMTP settings, and other environment variables.
+
+6. **Install frontend dependencies:**
+
+    ```bash
+    cd frontend
+    npm install
+    ```
+
+7. **Start the frontend development server:**
+
+    ```bash
+    npm run dev
+    ```
+
+### Running the project
+
+1. **Start the queue worker:**
+
+    ```bash
+    php artisan queue:work
+    ```
+
+    - **Note:** You might need to manually run this command to process queued tasks until you implement a scheduler.
+
+2. **Access the frontend:**
+
+    - Your api should be accessible at `projectDomain/api`
+
+## Usage
+
+1. **Create Tasks:** Add new tasks with descriptions, deadlines, and categories.
+2. **Manage Tasks:** Edit, complete, and prioritize your tasks.
